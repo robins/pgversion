@@ -1,6 +1,6 @@
 # PGVersion
 
-![Coverage](https://api.travis-ci.org/robins/getRDSUpgradePath.svg?branch=master)
+![Coverage](https://api.travis-ci.org/robins/pgversion.svg?branch=master)
 
 Python library for Postgres Versions that allow:
 - Validation of Postgres Version Strings
