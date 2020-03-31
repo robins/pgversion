@@ -1,19 +1,23 @@
 # This script allows working with Postgres Version Numbers and tries
 # to provide basic modules around it. It provides functions to:
+
 # 1) Conversion - For e.g. getPGVerNumFromString() is a function that
 #    converts any Postgres version string (for e.g. v9.3.14) to
 #    corresponding version Number - i.e. 90314
-# 2) Validity - For e.g. IsValidPGVersion() allows validity checks
+
+# 2) Validity - For e.g. IsValidPGVersion() allows validity checks. It also
+#    takes care of the new Version numbering system in effect since v10+
+
 # 3) Parsing - For e.g. PargePGVersion()
+
 # 4) Auto-Correction - For e.g. appendMinorVersionIfRequired()
+
 # 5) Historical Info
 #    For e.g. getVerReleasedDate() - returns Version release date
 #             IsVerReleasedAfter() - Whether Ver X was released before Y
 
 # Original Source: https://github.com/robins/pgversion/blob/master/pgvernum.py
 
-# Note: It also takes care of the new Version numbering system in effect
-# since Postgres v10+
 
 # Sample runs
 # -----------
