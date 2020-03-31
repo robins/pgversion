@@ -450,6 +450,10 @@ def dprint(s, debug = default_debug_level):
   if (debug_level >= debug):
     print (s)
 
+
+# Returns 1 if the postgres version is valid
+# It does not take (only) major versions. It would need to be appended with .0 to be considered valid
+# It takes care of Version Number semantics differences before and after v10.0
 def isValidPGVersion(_s, debug = default_debug_level):
 
   s= str(_s)
@@ -515,6 +519,8 @@ def isValidPGVersion(_s, debug = default_debug_level):
 
   return 1
 
+
+# Return (only) the Major version when given a Valid Postgres Version
 def getMajorPGVersion(v):
   s=appendMinorVersionIfRequired(v)
   if (not isValidPGVersion(s)):
@@ -533,6 +539,8 @@ def getMajorPGVersion(v):
   # We shouldn't reach here. Something went wrong
   return -2
 
+
+# Return (only) the Minor version when given a Valid Postgres Version
 def getMinorPGVersion(s):
   if (not isValidPGVersion(s)):
     return -1
@@ -550,6 +558,7 @@ def getMinorPGVersion(s):
   # We shouldn't reach here. Something went wrong
   return -2
 
+
 # Returns a dict of [Major, Minor] if provided a valid PG Version
 def parsePGVersion(s):
 
@@ -565,20 +574,26 @@ def parsePGVersion(s):
 
   return -1
 
+
+# Attempt to append a .0 at the end of the Version passed to check if passes isValidPGVersion()
 def appendMinorVersionIfRequired(s):
 
   if (not isValidPGVersion(s)):
     attempt1 = s + ".0"
     if (isValidPGVersion(attempt1)):
       # Additionally also check whether we already have this in the lookup list.
-      # This is a best-effort function and unlike in IsValidPGVersion() we can 
-      # rely on the list and fail if it doesn't exist there.
+      # This is a best-effort function and unlike in IsValidPGVersion() we can
+      # rely on the release date list and fail if it doesn't exist there.
       # This avoids some scenarios such as v1.1 becomes v.1.1.0, which is wrong.
       if (attempt1 in verReleaseDates):
         return attempt1
 
   return s
 
+
+# Get the PostgresVersionNum Integer from the Version String provided
+# For e.g. v10.14 would return 100014
+# More details: https://www.postgresql.org/docs/devel/runtime-config-preset.html#GUC-SERVER-VERSION-NUM
 def getPGVerNumFromString(s):
 
   if (not isValidPGVersion(s)):
@@ -598,6 +613,11 @@ def getPGVerNumFromString(s):
       versionnum += x[2]
   return versionnum
 
+
+# Get the Release Date when a Postgres Version was released to the Community
+# For e.g.: v12.2 was released on 13th Feb 2020
+# So when '12.2' is passed, the function returns '2020-02-13'
+# Sample Release URL: https://www.postgresql.org/about/news/2011/
 def getVerReleasedDate(ver):
   global verReleaseDates
 
@@ -610,9 +630,14 @@ def getVerReleasedDate(ver):
     dprint('Release date unavailable for release: ' + ver)
   return '0'
 
+
+# Convert date from YYYY-MM-DD to YYYYMMDD format
 def convToYYYYMMDD(dt):
   return int(datetime.strptime(dt, '%Y-%m-%d').strftime('%Y%m%d'))
 
+
+# Simple comparison function that returns 1 if v1 was released AFTER v2
+# For e.g. IsVerReleasedAfter('10.12', '11.5') returns 1 (TRUE) owing to how Postgres Release numbering works.
 def IsVerReleasedAfter(v1, v2):
   global verReleaseDates
 
