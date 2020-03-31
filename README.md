@@ -1,4 +1,4 @@
-# PGVersion
+## Python functions around Postgres version strings - PGVersion
 
 ![Coverage](https://api.travis-ci.org/robins/pgversion.svg?branch=master)
 
@@ -17,7 +17,7 @@ Python library for Postgres Versions that allow:
   - Convert PG Version String to PG Version Number (for e.g. v10.14 -> 100014)
 
 
-## Testing
+### Testing
 - 100+ tests for various functions
 - Travis integration
 
