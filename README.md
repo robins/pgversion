@@ -19,7 +19,7 @@ Python library for Postgres Versions that allow:
 
 ## Testing
 - 100+ tests for various functions
-- Travis integration (pending)
+- Travis integration
 
 
 ### Testing Postgres Version Number generation
