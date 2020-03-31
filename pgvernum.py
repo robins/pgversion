@@ -10,7 +10,7 @@
 #    For e.g. getVerReleasedDate() - returns Version release date
 #             IsVerReleasedAfter() - Whether Ver X was released before Y
 
-# Original Source: https://github.com/robins/getRDSUpgradePath/blob/master/pgvernum.py
+# Original Source: https://github.com/robins/pgversion/blob/master/pgvernum.py
 
 # Note: It also takes care of the new Version numbering system in effect
 # since Postgres v10+
@@ -44,8 +44,10 @@ debug_level = 0
 default_debug_level = 1
 
 verReleaseDates = {
+  '12.2'    : '2020-02-13',
   '12.1'    : '2019-11-14',
   '12.0'    : '2019-10-03',
+  '11.7'    : '2020-02-13',
   '11.6'    : '2019-11-14',
   '11.5'    : '2019-08-08',
   '11.4'    : '2019-06-20',
@@ -53,6 +55,7 @@ verReleaseDates = {
   '11.2'    : '2019-02-14',
   '11.1'    : '2018-11-08',
   '11.0'    : '2018-10-18',
+  '10.12'   : '2020-02-13',
   '10.11'   : '2019-11-14',
   '10.10'   : '2019-08-08',
   '10.9'    : '2019-06-20',
@@ -65,6 +68,7 @@ verReleaseDates = {
   '10.2'    : '2018-02-08',
   '10.1'    : '2017-11-09',
   '10.0'    : '2017-10-05',
+  '9.6.17'  : '2020-02-13',
   '9.6.16'  : '2019-11-14',
   '9.6.15'  : '2019-08-08',
   '9.6.14'  : '2019-06-20',
@@ -82,6 +86,7 @@ verReleaseDates = {
   '9.6.2'   : '2017-02-09',
   '9.6.1'   : '2016-10-27',
   '9.6.0'   : '2016-09-29',
+  '9.5.21'  : '2020-02-13',
   '9.5.20'  : '2019-11-14',
   '9.5.19'  : '2019-08-08',
   '9.5.18'  : '2019-06-20',
@@ -103,6 +108,7 @@ verReleaseDates = {
   '9.5.2'   : '2016-03-31',
   '9.5.1'   : '2016-02-11',
   '9.5.0'   : '2016-01-07',
+  '9.4.26'  : '2020-02-13',
   '9.4.25'  : '2019-11-14',
   '9.4.24'  : '2019-08-08',
   '9.4.23'  : '2019-06-20',
