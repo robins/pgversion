@@ -1,36 +1,23 @@
 # This script allows working with Postgres Version Numbers and tries
-# to provide basic modules around it. It provides functions to:
+# to provide basic modules around it. It provides functions for:
 
 # 1) Conversion - For e.g. getPGVerNumFromString() is a function that
 #    converts any Postgres version string (for e.g. v9.3.14) to
 #    corresponding version Number - i.e. 90314
 
-# 2) Validity - For e.g. IsValidPGVersion() allows validity checks. It also
-#    takes care of the new Version numbering system in effect since v10+
+# 2) Validity - For e.g. IsValidPGVersion() performs validity checks. It also
+#    takes care of the old Version numbering system in effect period to v9.6-
 
-# 3) Parsing - For e.g. PargePGVersion()
+# 3) Parsing - For e.g. ParsePGVersion()
 
 # 4) Auto-Correction - For e.g. appendMinorVersionIfRequired()
 
 # 5) Historical Info
 #    For e.g. getVerReleasedDate() - returns Version release date
-#             IsVerReleasedAfter() - Whether Ver X was released before Y
+#             IsVerReleasedAfter() - Whether Version X was released after version Y
 
 # Original Source: https://github.com/robins/pgversion/blob/master/pgvernum.py
 
-
-# Sample runs
-# -----------
-# >py pgvernum.py 9.3.14
-# 90314
-# >py pgvernum.py 9.6.1
-# 90601
-# >py pgvernum.py 10.0
-# 100000
-# >py pgvernum.py 10.14
-# 100014
-# >py pgvernum.py 11.1
-# 110001
 
 # Sample runs for the Unit Tests
 #>py test_pgvernum.py
@@ -48,9 +35,66 @@ debug_level = 0
 default_debug_level = 1
 
 verReleaseDates = {
+  '16.0'    : '2023-09-14',
+  '15.4'    : '2023-08-10',
+  '15.3'    : '2023-05-11',
+  '15.2'    : '2023-02-09',
+  '15.1'    : '2022-11-10',
+  '15.0'    : '2022-10-13',
+  '14.9'    : '2023-08-10',
+  '14.8'    : '2023-05-11',
+  '14.7'    : '2023-02-09',
+  '14.6'    : '2022-11-10',
+  '14.5'    : '2022-08-11',
+  '14.4'    : '2022-06-16',
+  '14.3'    : '2022-05-12',
+  '14.2'    : '2022-02-10',
+  '14.1'    : '2021-11-11',
+  '14.0'    : '2021-09-30',
+  '13.12'   : '2023-08-10',
+  '13.11'   : '2023-05-11',
+  '13.10'   : '2023-02-09',
+  '13.9'    : '2022-11-10',
+  '13.8'    : '2022-08-11',
+  '13.7'    : '2022-05-12',
+  '13.6'    : '2022-02-10',
+  '13.5'    : '2021-11-11',
+  '13.4'    : '2021-08-12',
+  '13.3'    : '2021-05-13',
+  '13.2'    : '2021-02-11',
+  '13.1'    : '2020-11-12',
+  '13.0'    : '2020-09-24',
+  '12.16'   : '2023-08-10',
+  '12.15'   : '2023-05-11',
+  '12.14'   : '2023-02-09',
+  '12.13'   : '2022-11-10',
+  '12.12'   : '2022-08-11',
+  '12.11'   : '2022-05-12',
+  '12.10'   : '2022-02-10',
+  '12.9'    : '2021-11-11',
+  '12.8'    : '2021-08-12',
+  '12.7'    : '2021-05-13',
+  '12.6'    : '2021-02-11',
+  '12.5'    : '2020-11-12',
+  '12.4'    : '2020-08-13',
+  '12.3'    : '2020-05-14',
   '12.2'    : '2020-02-13',
   '12.1'    : '2019-11-14',
   '12.0'    : '2019-10-03',
+  '11.21'   : '2023-08-10',
+  '11.20'   : '2023-05-11',
+  '11.19'   : '2023-02-09',
+  '11.18'   : '2022-11-10',
+  '11.17'   : '2022-08-11',
+  '11.16'   : '2022-05-12',
+  '11.15'   : '2022-02-10',
+  '11.14'   : '2021-11-11',
+  '11.13'   : '2021-08-12',
+  '11.12'   : '2021-05-13',
+  '11.11'   : '2021-02-11',
+  '11.10'   : '2020-11-12',
+  '11.9'    : '2020-08-13',
+  '11.8'    : '2020-05-14',
   '11.7'    : '2020-02-13',
   '11.6'    : '2019-11-14',
   '11.5'    : '2019-08-08',
@@ -59,6 +103,17 @@ verReleaseDates = {
   '11.2'    : '2019-02-14',
   '11.1'    : '2018-11-08',
   '11.0'    : '2018-10-18',
+  '10.23'   : '2022-11-10',
+  '10.22'   : '2022-08-11',
+  '10.21'   : '2022-05-12',
+  '10.20'   : '2022-02-10',
+  '10.19'   : '2021-11-11',
+  '10.18'   : '2021-08-12',
+  '10.17'   : '2021-05-13',
+  '10.16'   : '2021-02-11',
+  '10.15'   : '2020-11-12',
+  '10.14'   : '2020-08-13',
+  '10.13'   : '2020-05-14',
   '10.12'   : '2020-02-13',
   '10.11'   : '2019-11-14',
   '10.10'   : '2019-08-08',
@@ -72,6 +127,13 @@ verReleaseDates = {
   '10.2'    : '2018-02-08',
   '10.1'    : '2017-11-09',
   '10.0'    : '2017-10-05',
+  '9.6.24'  : '2021-11-11',
+  '9.6.23'  : '2021-08-12',
+  '9.6.22'  : '2021-05-13',
+  '9.6.21'  : '2021-02-11',
+  '9.6.20'  : '2020-11-12',
+  '9.6.19'  : '2020-08-13',
+  '9.6.18'  : '2020-05-14',
   '9.6.17'  : '2020-02-13',
   '9.6.16'  : '2019-11-14',
   '9.6.15'  : '2019-08-08',
@@ -90,6 +152,10 @@ verReleaseDates = {
   '9.6.2'   : '2017-02-09',
   '9.6.1'   : '2016-10-27',
   '9.6.0'   : '2016-09-29',
+  '9.5.25'  : '2021-02-11',
+  '9.5.24'  : '2020-11-12',
+  '9.5.23'  : '2020-08-13',
+  '9.5.22'  : '2020-05-14',
   '9.5.21'  : '2020-02-13',
   '9.5.20'  : '2019-11-14',
   '9.5.19'  : '2019-08-08',
@@ -455,33 +521,51 @@ def dprint(s, debug = default_debug_level):
     print (s)
 
 
-# Returns 1 if the postgres version is valid
-# It does not take (only) major versions. It would need to be appended with .0 to be considered valid
-# It takes care of Version Number semantics differences before and after v10.0
+# Returns: True if the postgres version has already been released
+# Input: Version number in "Major.Minor" format.
+# Detail: It accepts both "a.b.c" and "a.b" version formats.
+# Error: Return False if invalid input is provided, or if a valid version hasn't been released yet
+def isReleasedPGVersion(_s, debug = default_debug_level):
+  if (isValidPGVersion(_s)):
+    if (_s in verReleaseDates):
+      return True
+    else:
+      dprint("Version hasn't been released yet - " + _s, debug)
+  else:
+    dprint("Invalid PG Version - " + _s, debug)
+
+  return False
+
+# Returns: True if the postgres version is already released or technically valid
+# Input: Version number in "Major.Minor" format.
+# Detail: It accepts both "a.b.c" and "a.b" version formats.
+# Error: Return False if invalid input is provided
+# Valid Version: Both 10<=MajorVersion<100 and 0<=MinorVersion<10000.
 def isValidPGVersion(_s, debug = default_debug_level):
 
   s= str(_s)
+
   # Old (v9.3.1) or New (v11.0) require at least 4 characters for
   # being a valid version string
   if (len(s)<4):
     dprint('Invalid Version String - Requires at least 4 characters - ' + s, debug)
-    return 0
+    return False
 
   if (re.match(r"^\.|.*\.$", s)):
     dprint("Invalid Version String. Shouldn't begin or end with period / dot (.) - " + s, debug)
-    return 0
+    return False
 
   # Fail if there are 2 or more adjacent dots (.)
   if (re.match(r".*[\.]{2,}", s)):
     dprint("Invalid Version String. There are 2+ adjacent periods / dots (.) - " + s, debug)
-    return 0
+    return False
 
   dots = s.count('.')
 
   # Fail if it has anything except numbers and dot (.)
   if (not re.match(r'^[0-9\.]*$', s)):
     dprint("Invalid Version String. Shouldn't have anything except numbers and period / dot (.) - " + s, debug)
-    return 0
+    return False
 
   # Fail if it has no dots. A Version requires both Major AND Minor
   # version to be present.
@@ -491,44 +575,51 @@ def isValidPGVersion(_s, debug = default_debug_level):
   # a ".0" minor version, but that is beyond scope of this function
   if (dots == 0):
     dprint("Invalid Version String. Should have both Major and Minor version - " + s, debug)
-    return 0
+    return False
 
   # Fail if it has more than 2 dots
   if (dots > 2):
     dprint("Invalid Version String. Has more than 2 periods / dots (.) - " + s, debug)
-    return 0
+    return False
 
   x = list(map(int, s.split('.', dots)))
 
   if (dots == 2):
-    # v10+ should not have more than 1 dot
-    if (x[0]>=10):
-      dprint("Invalid Version String. v10+ shouldn't have more than one period / dot (.) - " + s, debug)
-      return 0
-    if (x[2] >= 100):
-      dprint("Invalid Version String. Minor version should be less than 100 - " + s, debug)
-      return 0
-    if (x[1] >= 100):
-      dprint("Invalid Version String. Right digit of Major version (9.x) should be <100 - " + s, debug)
-      return 0
+    # This numbering is pre v10- and we have an accurate list of all valid versions.
+    # Lets leave the math aside, and just check that list.
+    # A good reason here is versions like v9.7.1 would pass all major checks and still
+    # would be Invalid, since it was never released.
+    if (not s in verReleaseDates):
+      dprint("Invalid pre v10 version. Not in the version list - " + s, debug)
+      return False
 
   if (dots == 1):
-    # pre-v10 should have more than 1 dot
-    if (x[0]<10):
-      dprint("Invalid Version String. Should have both Major and Minor versions - " + s, debug)
-      return 0
+    if (x[0]<=10):
+      # This version is already EOL and we have an accurate list of all EOL versions.
+      # Lets leave the math aside, and just check that list. A good reason here is
+      # versions like v9.7.1 would pass all major checks and would still be Invalid,
+      # since it was never released.
+      if (not s in verReleaseDates):
+        dprint("Invalid EOL version. Not in the version list - " + s, debug)
+        return False
+
+    if (x[0] >= 100):
+      dprint("Invalid Version String. Major Version should be less than 100 - " + s, debug)
+      return False
+
     if (x[1] >= 10000):
       dprint("Invalid Version String. Minor Version should be less than 10000 - " + s, debug)
-      return 0
+      return False
 
-  return 1
+  return True
 
 
-# Return (only) the Major version when given a Valid Postgres Version
+# Return: Major version part of the postgres version provided
+# Error: Return False if invalid input is provided
 def getMajorPGVersion(v):
   s=appendMinorVersionIfRequired(v)
   if (not isValidPGVersion(s)):
-    return -1
+    return False
 
   dots = s.count('.')
   x = list(map(int, s.split('.', dots)))
@@ -541,13 +632,14 @@ def getMajorPGVersion(v):
     return int(x[0])
 
   # We shouldn't reach here. Something went wrong
-  return -2
+  return False
 
 
-# Return (only) the Minor version when given a Valid Postgres Version
+# Return: Minor version of the postgres version provided
+# Error: Return False if invalid input is provided
 def getMinorPGVersion(s):
   if (not isValidPGVersion(s)):
-    return -1
+    return False
 
   dots = s.count('.')
   x = list(map(int, s.split('.', dots)))
@@ -560,14 +652,15 @@ def getMinorPGVersion(s):
     return x[1]
 
   # We shouldn't reach here. Something went wrong
-  return -2
+  return False
 
 
-# Returns a dict of [Major, Minor] if provided a valid PG Version
+# Return: A dict of [Major, Minor] extracted from postgres version provided
+# Error: Return False if invalid input is provided
 def parsePGVersion(s):
 
   if (not isValidPGVersion(s)):
-    return -1
+    return False
 
   Maj = getMajorPGVersion(s)
   Min = getMinorPGVersion(s)
@@ -576,15 +669,17 @@ def parsePGVersion(s):
     if (Min >= 0):
       return [Maj, Min]
 
-  return -1
+  return False
 
 
-# Attempt to append a .0 at the end of the Version passed to check if passes isValidPGVersion()
+# Return: Return an appended .0 if that allows the input string to pass the isValidPGVersion() check
+# Error: Return input string if input can't be converted into a valid PG version
 def appendMinorVersionIfRequired(s):
 
   if (not isValidPGVersion(s)):
     attempt1 = s + ".0"
     if (isValidPGVersion(attempt1)):
+
       # Additionally also check whether we already have this in the lookup list.
       # This is a best-effort function and unlike in IsValidPGVersion() we can
       # rely on the release date list and fail if it doesn't exist there.
@@ -595,13 +690,13 @@ def appendMinorVersionIfRequired(s):
   return s
 
 
-# Get the PostgresVersionNum Integer from the Version String provided
-# For e.g. v10.14 would return 100014
-# More details: https://www.postgresql.org/docs/devel/runtime-config-preset.html#GUC-SERVER-VERSION-NUM
+# Return: The PostgresVersionNum Integer from the postgres version provided
+# Detail: For e.g. v10.14 would return 100014
+# Documentation: https://www.postgresql.org/docs/devel/runtime-config-preset.html#GUC-SERVER-VERSION-NUM
 def getPGVerNumFromString(s):
 
   if (not isValidPGVersion(s)):
-    return 0
+    return False
 
   dots = s.count('.')
 
@@ -618,10 +713,8 @@ def getPGVerNumFromString(s):
   return versionnum
 
 
-# Get the Release Date when a Postgres Version was released to the Community
-# For e.g.: v12.2 was released on 13th Feb 2020
-# So when '12.2' is passed, the function returns '2020-02-13'
-# Sample Release URL: https://www.postgresql.org/about/news/2011/
+# Return: Release Date when the postgres version was released
+# Detail: For e.g. v12.2 would return 13th Feb 2020 in the date-format yyyy-mm-dd.
 def getVerReleasedDate(ver):
   global verReleaseDates
 
@@ -635,32 +728,33 @@ def getVerReleasedDate(ver):
   return '0'
 
 
-# Convert date from YYYY-MM-DD to YYYYMMDD format
+# Return: Return date in YYYYMMDD format
+# Input: Date in YYYY-MM-DD
 def convToYYYYMMDD(dt):
   return int(datetime.strptime(dt, '%Y-%m-%d').strftime('%Y%m%d'))
 
 
-# Simple comparison function that returns 1 if v1 was released AFTER v2
-# For e.g. IsVerReleasedAfter('10.12', '11.5') returns 1 (TRUE) owing to how Postgres Release numbering works.
+# Return: True if v1 was released *after* v2
+# Detail: For e.g. IsVerReleasedAfter('10.12', '11.5') returns True
 def IsVerReleasedAfter(v1, v2):
   global verReleaseDates
 
   if not isValidPGVersion(v1):
-    return 0
+    return False
 
   if not isValidPGVersion(v2):
-    return 0
+    return False
 
   if (v1 in verReleaseDates) and (v2 in verReleaseDates):
     if (v1 in verReleaseDates) and (v2 in verReleaseDates):
       if (convToYYYYMMDD(verReleaseDates[v1])>convToYYYYMMDD(verReleaseDates[v2])):
-        return 1
+        return True
     else:
       dprint('Release date unavailable for release: ' + v2)
   else:
     dprint('Release date unavailable for release: ' + v1)
 
-  return 0
+  return False
 
 def main(argv):
   if len(sys.argv) == 2:
@@ -673,4 +767,4 @@ def main(argv):
 if (__name__ == '__main__'):
   main(sys.argv)
 
-#getMajorPGVersion(sys.argv[1])
+#print (getPGVerNumFromString(sys.argv[1]))
