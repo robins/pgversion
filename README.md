@@ -17,6 +17,17 @@ Python library for Postgres Versions that allow:
   - Convert PG Version String to PG Version Number (for e.g. v10.14 -> 100014)
 
 
+### Functions
+- isValidPGVersion(s)
+- getMajorPGVersion(s)
+- getMinorPGVersion(s)
+- parsePGVersion(s)
+- appendMinorVersionIfRequired(s)
+- getPGVerNumFromString(s)
+- getVerReleasedDate(ver)
+- IsVerReleasedAfter(v1, v2)
+
+
 ### Testing
 - 100+ tests for various functions
 - Travis integration
