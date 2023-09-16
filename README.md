@@ -1,13 +1,24 @@
 # PGVersion
+
 ## Python functions for Postgres version strings
 
-### Python library allows
+### Did you know?
+> Postgres v12.14 was released **after** v15.1!
+
+> Postgres v9.6.1 is valid, but v10.6.1 is invalid.
+
+> Postgres v9.6.24 was released, but v10.25 though valid never was.
+
+This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system.
+
+
+## Python library allows
 - Validation of Postgres Version Strings
-- Attempt auto-correction of minor versions
-- Get Release Date information for a given Postgres Version
-- Compare release dates of two versions
-- Extract Major (or Minor) version from Version String
 - Conversion of Postgres version string to version number (for e.g. v10.14 -> 100014)
+- Get Release Date information for a given Postgres Version
+- Compare release dates of 2 version numbers
+- Attempt auto-correction of minor versions
+- Extract Major (or Minor) version from Version String
 
 
 ## Functions
