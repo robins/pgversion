@@ -119,17 +119,17 @@ class TestMethods(unittest.TestCase):
   def test_convToYYYYMMDD(self):
     self.assertEqual(pgvernum.convToYYYYMMDD('2023-02-01'), 20230201)
 
-  def test_getVerReleasedDate_positives(self):
-    self.assertEqual(pgvernum.getVerReleasedDate('12.1'), '2019-11-14')
-    self.assertEqual(pgvernum.getVerReleasedDate('12.0'), '2019-10-03')
-    self.assertEqual(pgvernum.getVerReleasedDate('10.1'), '2017-11-09')
+  def test_getVerReleaseDate_positives(self):
+    self.assertEqual(pgvernum.getVerReleaseDate('12.1'), '2019-11-14')
+    self.assertEqual(pgvernum.getVerReleaseDate('12.0'), '2019-10-03')
+    self.assertEqual(pgvernum.getVerReleaseDate('10.1'), '2017-11-09')
 
-  def test_getVerReleasedDate_negatives(self):
-    self.assertEqual(pgvernum.getVerReleasedDate('12.100'), '0')
-    self.assertEqual(pgvernum.getVerReleasedDate('12.'), '0')
-    self.assertEqual(pgvernum.getVerReleasedDate('12.a'), '0')
-    self.assertEqual(pgvernum.getVerReleasedDate('1232'), '0')
-    self.assertEqual(pgvernum.getVerReleasedDate('-1'), '0')
+  def test_getVerReleaseDate_negatives(self):
+    self.assertEqual(pgvernum.getVerReleaseDate('12.100'), '0')
+    self.assertEqual(pgvernum.getVerReleaseDate('12.'), '0')
+    self.assertEqual(pgvernum.getVerReleaseDate('12.a'), '0')
+    self.assertEqual(pgvernum.getVerReleaseDate('1232'), '0')
+    self.assertEqual(pgvernum.getVerReleaseDate('-1'), '0')
 
   def test_IsVerReleasedAfter_positives(self):
     self.assertEqual(pgvernum.IsVerReleasedAfter('12.1', '11.5'), True)

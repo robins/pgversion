@@ -13,7 +13,7 @@
 # 4) Auto-Correction - For e.g. appendMinorVersionIfRequired()
 
 # 5) Historical Info
-#    For e.g. getVerReleasedDate() - returns Version release date
+#    For e.g. getVerReleaseDate() - returns Version release date
 #             IsVerReleasedAfter() - Whether Version X was released after version Y
 
 # Original Source: https://github.com/robins/pgversion/blob/master/pgvernum.py
@@ -34,7 +34,7 @@ from datetime import datetime
 debug_level = 0
 default_debug_level = 1
 
-verReleaseDates = {
+_verReleaseDates = {
   '16.0'    : '2023-09-14',
   '15.4'    : '2023-08-10',
   '15.3'    : '2023-05-11',
@@ -524,15 +524,18 @@ def dprint(s, debug = default_debug_level):
 # Returns: True if the postgres version has already been released
 # Input: Version number in "Major.Minor" format.
 # Detail: It accepts both "a.b.c" and "a.b" version formats.
-# Error: Return False if invalid input is provided, or if a valid version hasn't been released yet
+# Error: Return False if invalid input is provided, or hasn't been released yet (even if valid)
 def isReleasedPGVersion(_s, debug = default_debug_level):
-  if (isValidPGVersion(_s)):
-    if (_s in verReleaseDates):
+  
+  s= str(_s)
+
+  if (isValidPGVersion(s)):
+    if (s in _verReleaseDates):
       return True
     else:
-      dprint("Version hasn't been released yet - " + _s, debug)
+      dprint("Version hasn't been released yet - " + s, debug)
   else:
-    dprint("Invalid PG Version - " + _s, debug)
+    dprint("Invalid PG Version - " + s, debug)
 
   return False
 
@@ -589,7 +592,7 @@ def isValidPGVersion(_s, debug = default_debug_level):
     # Lets leave the math aside, and just check that list.
     # A good reason here is versions like v9.7.1 would pass all major checks and still
     # would be Invalid, since it was never released.
-    if (not s in verReleaseDates):
+    if (not s in _verReleaseDates):
       dprint("Invalid pre v10 version. Not in the version list - " + s, debug)
       return False
 
@@ -599,7 +602,7 @@ def isValidPGVersion(_s, debug = default_debug_level):
       # Lets leave the math aside, and just check that list. A good reason here is
       # versions like v9.7.1 would pass all major checks and would still be Invalid,
       # since it was never released.
-      if (not s in verReleaseDates):
+      if (not s in _verReleaseDates):
         dprint("Invalid EOL version. Not in the version list - " + s, debug)
         return False
 
@@ -637,7 +640,9 @@ def getMajorPGVersion(v):
 
 # Return: Minor version of the postgres version provided
 # Error: Return False if invalid input is provided
-def getMinorPGVersion(s):
+def getMinorPGVersion(_s):
+  s= str(_s)
+
   if (not isValidPGVersion(s)):
     return False
 
@@ -657,7 +662,8 @@ def getMinorPGVersion(s):
 
 # Return: A dict of [Major, Minor] extracted from postgres version provided
 # Error: Return False if invalid input is provided
-def parsePGVersion(s):
+def parsePGVersion(_s):
+  s= str(_s)
 
   if (not isValidPGVersion(s)):
     return False
@@ -674,7 +680,9 @@ def parsePGVersion(s):
 
 # Return: Return an appended .0 if that allows the input string to pass the isValidPGVersion() check
 # Error: Return input string if input can't be converted into a valid PG version
-def appendMinorVersionIfRequired(s):
+def appendMinorVersionIfRequired(_s):
+
+  s= str(_s)
 
   if (not isValidPGVersion(s)):
     attempt1 = s + ".0"
@@ -684,7 +692,7 @@ def appendMinorVersionIfRequired(s):
       # This is a best-effort function and unlike in IsValidPGVersion() we can
       # rely on the release date list and fail if it doesn't exist there.
       # This avoids some scenarios such as v1.1 becomes v.1.1.0, which is wrong.
-      if (attempt1 in verReleaseDates):
+      if (attempt1 in _verReleaseDates):
         return attempt1
 
   return s
@@ -693,7 +701,9 @@ def appendMinorVersionIfRequired(s):
 # Return: The PostgresVersionNum Integer from the postgres version provided
 # Detail: For e.g. v10.14 would return 100014
 # Documentation: https://www.postgresql.org/docs/devel/runtime-config-preset.html#GUC-SERVER-VERSION-NUM
-def getPGVerNumFromString(s):
+def getPGVerNumFromString(_s):
+
+  s= str(_s)
 
   if (not isValidPGVersion(s)):
     return False
@@ -715,14 +725,13 @@ def getPGVerNumFromString(s):
 
 # Return: Release Date when the postgres version was released
 # Detail: For e.g. v12.2 would return 13th Feb 2020 in the date-format yyyy-mm-dd.
-def getVerReleasedDate(ver):
-  global verReleaseDates
+def getVerReleaseDate(ver):
 
   if not isValidPGVersion(ver):
     return '0'
 
-  if (ver in verReleaseDates):
-    return verReleaseDates[ver]
+  if (ver in _verReleaseDates):
+    return _verReleaseDates[ver]
   else:
     dprint('Release date unavailable for release: ' + ver)
   return '0'
@@ -737,7 +746,6 @@ def convToYYYYMMDD(dt):
 # Return: True if v1 was released *after* v2
 # Detail: For e.g. IsVerReleasedAfter('10.12', '11.5') returns True
 def IsVerReleasedAfter(v1, v2):
-  global verReleaseDates
 
   if not isValidPGVersion(v1):
     return False
@@ -745,9 +753,9 @@ def IsVerReleasedAfter(v1, v2):
   if not isValidPGVersion(v2):
     return False
 
-  if (v1 in verReleaseDates) and (v2 in verReleaseDates):
-    if (v1 in verReleaseDates) and (v2 in verReleaseDates):
-      if (convToYYYYMMDD(verReleaseDates[v1])>convToYYYYMMDD(verReleaseDates[v2])):
+  if (v1 in _verReleaseDates) and (v2 in _verReleaseDates):
+    if (v1 in _verReleaseDates) and (v2 in _verReleaseDates):
+      if (convToYYYYMMDD(_verReleaseDates[v1])>convToYYYYMMDD(_verReleaseDates[v2])):
         return True
     else:
       dprint('Release date unavailable for release: ' + v2)
