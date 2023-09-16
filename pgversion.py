@@ -16,16 +16,7 @@
 #    For e.g. getVerReleaseDate() - returns Version release date
 #             IsVerReleasedAfter() - Whether Version X was released after version Y
 
-# Original Source: https://github.com/robins/pgversion/blob/master/pgvernum.py
-
-
-# Sample runs for the Unit Tests
-#>py test_pgvernum.py
-#................
-#----------------------------------------------------------------------
-#Ran 16 tests in 0.006s
-#
-#OK
+# Original Source: https://github.com/robins/pgversion/blob/master/pgversion.py
 
 import sys
 import re

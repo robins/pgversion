@@ -1,6 +1,5 @@
 
-import pgvernum as v
-# sys.path.append('pgvernum.py') pgvernum
+import pgversion as v
 
 print()
 print("Accepts argument as int. For e.g. isValidPGVersion(11.1) -", v.isReleasedPGVersion(11.1))

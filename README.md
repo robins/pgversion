@@ -57,7 +57,7 @@ Compare release dates of two Postgres versions. For e.g. IsVerReleasedAfter('12.
 
 ### Sample Test Run
 ```
-C:\proj\pgversion>coverage run test_pgvernum.py
+C:\proj\pgversion>coverage run test_pgversion.py
 ...................
 ----------------------------------------------------------------------
 Ran 19 tests in 0.005s
