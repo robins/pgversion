@@ -12,13 +12,14 @@
 This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system. Admittedly it may interest very few, but for those, it should be pretty helpful to not bake it all themselves.
 
 
-## Python library allows
+## Features
 - Validation of Postgres Version Strings
 - Conversion of Postgres version string to version number (for e.g. v10.14 -> 100014)
 - Get Release Date information for a given Postgres Version
 - Compare release dates of 2 version numbers
 - Attempt auto-correction of minor versions
 - Extract Major (or Minor) version from Version String
+- 100+ tests for various functions
 
 
 ## Functions
@@ -59,11 +60,6 @@ Get Release Date for Postgres Version. For e.g. getVerReleaseDate('10.1') - 2017
 Compare release dates of two Postgres versions. For e.g. IsVerReleasedAfter('12.14', '15.1') True
 ... in other words, v12.14 was released *after* v15.1
 ```
-
-
-## Testing
-- 100+ tests for various functions
-- Travis integration
 
 
 ### Sample Test Run
