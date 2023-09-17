@@ -3,13 +3,13 @@
 ## Python functions for Postgres version strings
 
 ### Did you know?
-> Postgres v12.14 was released **after** v15.1!
+> Postgres v15.1 was released **before** v12.14!
 
-> Postgres v9.6.1 is valid, but v10.6.1 is invalid.
+> Postgres v9.6.1 is valid, but v10.6.1 is an invalid version.
 
-> Postgres v9.6.24 was released, but v10.25 though valid never was.
+> Postgres v9.6.24 was released, but v10.24 never was (although it is a valid version number).
 
-This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system.
+This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system. Admittedly it may interest very few, but for those, it should be pretty helpful to not bake it all themselves.
 
 
 ## Python library allows
