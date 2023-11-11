@@ -1,20 +1,15 @@
-# This script allows working with Postgres Version Numbers and tries
-# to provide basic modules around it. It provides functions for:
+# This script aims to assist working with Postgres Version Numbers.
 
-# 1) Conversion - For e.g. getPGVerNumFromString() is a function that
-#    converts any Postgres version string (for e.g. v9.3.14) to
-#    corresponding version Number - i.e. 90314
+# Features
+# - Validation of Postgres Version Strings
+# - Conversion of Postgres version string to version number (for e.g. v10.14 -> 100014)
+# - Get Release Date information for a given Postgres Version
+# - Compare release dates of 2 version numbers
+# - Attempt auto-correction of minor versions
+# - Extract Major (or Minor) version from Version String
 
-# 2) Validity - For e.g. IsValidPGVersion() performs validity checks. It also
-#    takes care of the old Version numbering system in effect period to v9.6-
-
-# 3) Parsing - For e.g. ParsePGVersion()
-
-# 4) Auto-Correction - For e.g. appendMinorVersionIfRequired()
-
-# 5) Historical Info
-#    For e.g. getVerReleaseDate() - returns Version release date
-#             IsVerReleasedAfter() - Whether Version X was released after version Y
+# Read more in the README at
+# https://github.com/robins/pgversion/blob/master/README.md
 
 # Original Source: https://github.com/robins/pgversion/blob/master/pgversion.py
 
@@ -26,12 +21,15 @@ debug_level = 0
 default_debug_level = 1
 
 _verReleaseDates = {
+  '16.1'    : '2023-11-09',
   '16.0'    : '2023-09-14',
+  '15.5'    : '2023-11-09',
   '15.4'    : '2023-08-10',
   '15.3'    : '2023-05-11',
   '15.2'    : '2023-02-09',
   '15.1'    : '2022-11-10',
   '15.0'    : '2022-10-13',
+  '14.10'   : '2023-11-09',
   '14.9'    : '2023-08-10',
   '14.8'    : '2023-05-11',
   '14.7'    : '2023-02-09',
@@ -42,6 +40,7 @@ _verReleaseDates = {
   '14.2'    : '2022-02-10',
   '14.1'    : '2021-11-11',
   '14.0'    : '2021-09-30',
+  '13.13'   : '2023-11-09',
   '13.12'   : '2023-08-10',
   '13.11'   : '2023-05-11',
   '13.10'   : '2023-02-09',
@@ -55,6 +54,7 @@ _verReleaseDates = {
   '13.2'    : '2021-02-11',
   '13.1'    : '2020-11-12',
   '13.0'    : '2020-09-24',
+  '12.17'   : '2023-11-09',
   '12.16'   : '2023-08-10',
   '12.15'   : '2023-05-11',
   '12.14'   : '2023-02-09',
@@ -72,6 +72,7 @@ _verReleaseDates = {
   '12.2'    : '2020-02-13',
   '12.1'    : '2019-11-14',
   '12.0'    : '2019-10-03',
+  '11.22'   : '2023-11-09',
   '11.21'   : '2023-08-10',
   '11.20'   : '2023-05-11',
   '11.19'   : '2023-02-09',

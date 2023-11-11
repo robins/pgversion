@@ -9,8 +9,7 @@
 
 > Postgres v9.6.24 was released, but v10.24 never was (although it is a valid version number).
 
-This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system. Admittedly it may interest very few, but for those, it should be pretty helpful to not bake it all themselves.
-
+This project was created to help Python developers better work around the nuances of the Postgres Engine versioning system.
 
 ## Features
 - Validation of Postgres Version Strings
