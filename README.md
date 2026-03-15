@@ -5,7 +5,7 @@
 ### Did you know?
 > Postgres v15.1 was released **before** v12.14!
 
-> Postgres v9.6.1 is valid, but v10.6.1 is an invalid version.
+> Postgres v9.6.1 is valid, but v17.6.1 is an invalid version.
 
 > Postgres v9.6.24 was released, but v10.24 never was (although it is a valid version number).
 
@@ -43,18 +43,18 @@ Accepts argument as string. For e.g. isValidPGVersion('11.1') - True
 
 Accepts old Postgres version number system - For e.g. isValidPGVersion('9.6.1') - True
 
-Check if Postgres version is valid. For e.g. isValidPGVersion('10.14') - True
+Check if Postgres version is valid. For e.g. isValidPGVersion('17.0') - True
 ... and even when technically valid, confirm if a version was ever released. For e.g. was v9.7.1 ever released?  False
 
-Extract Major version from a Postgres version. For e.g. getMajorPGVersion('14.2') - 14
+Extract Major version from a Postgres version. For e.g. getMajorPGVersion('17.9') - 17
 
-Extract Minor version from a Postgres version. For e.g. getMinorPGVersion('14.2') - 2
+Extract Minor version from a Postgres version. For e.g. getMinorPGVersion('17.9') - 9
 
-Attempt to modify input to create a valid postgres version. For e.g. appendMinorVersionIfRequired(10) - 10.0
+Attempt to modify input to create a valid postgres version. For e.g. appendMinorVersionIfRequired(17) - 17.0
 
 Convert Postgres version string to Postgres Version Number. For e.g. getPGVerNumFromString('9.6.1') - 90601
 
-Get Release Date for Postgres Version. For e.g. getVerReleaseDate('10.1') - 2017-11-09
+Get Release Date for Postgres Version. For e.g. getVerReleaseDate('17.0') - 2024-09-26
 
 Compare release dates of two Postgres versions. For e.g. IsVerReleasedAfter('12.14', '15.1') True
 ... in other words, v12.14 was released *after* v15.1
